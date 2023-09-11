@@ -3,8 +3,12 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 function CustomListDropDown() {
+ 
+  const router = useRouter();
+
   const formArray = [1, 2, 3];
   const [formNo, setFormNo] = useState(formArray[0]);
 
@@ -91,19 +95,21 @@ function CustomListDropDown() {
       setSelectedState("");
       setCity("");
       setProduct("");
+      router.push("/");
     }
   };
 
   return (
    <>
+       <div className="grid place-items-center h-screen">
+
     <form
       onSubmit={handleSubmit}
       className="py-4 mt-4 border-t flex flex-col gap-5"
     >
-      <div className="w-full h-full bg-slate-300 flex justify-center items-center">
+      <div className="shadow-lg p-5 rounded-lg border-t-4 border-green-400">
         <ToastContainer />
 
-        <div className="card w-[540px] rounded-md shadow-md bg-white p-5">
           <div className="flex justify-center items-center">
             {formArray.map((v, i) => (
               <>
@@ -298,9 +304,9 @@ function CustomListDropDown() {
               </div>
             </div>
           )}
-        </div>
       </div>
     </form>
+</div>
 </>    
   );
 }
