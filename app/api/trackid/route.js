@@ -1,14 +1,14 @@
 import { connectMongoDB } from "@/lib/mongodb";
-import EwasteInfo from "@/models/ewaste-info";
+import Trackid from "@/models/trackid";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 
 export async function POST(req) {
-  const { fullname, email, number,selectedState,city,adder,Product } = await req.json();
+  const { fullname, email, trackid } = await req.json();
 
   try {
     await connectMongoDB();
-    await EwasteInfo.create({ fullname, email, number,selectedState,city,adder,Product });
+    await Trackid.create({ fullname, email,trackid  });
 
     return NextResponse.json({
       msg: ["Message sent successfully"],
@@ -26,18 +26,4 @@ export async function POST(req) {
       return NextResponse.json({ msg: ["Unable to send message."] });
     }
   }
-}
-
-export async function GET() {
-  await connectMongoDB();
-  const topics = await EwasteInfo.find();
-  return NextResponse.json({ topics });
-}
-
-
-export async function DELETE(request) {
-  const id = request.nextUrl.searchParams.get("id");
-  await connectMongoDB();
-  await EwasteInfo.findByIdAndDelete(id);
-  return NextResponse.json({ message: "Topic deleted" }, { status: 200 });
 }

@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
 
 function CustomListDropDown() {
- 
+  const { data: session } = useSession(); 
   const router = useRouter();
 
   const formArray = [1, 2, 3];
@@ -36,8 +38,8 @@ function CustomListDropDown() {
   //  use state
   const [selectedState, setSelectedState] = useState("");
   const [Product, setProduct] = useState("");
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
+  let [fullname, setFullname] = useState("");
+  let [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
   const [city, setCity] = useState("");
     const [adder, setAdder] = useState("");
@@ -45,8 +47,8 @@ function CustomListDropDown() {
   const [error, setError] = useState([]);
   const [success, setSuccess] = useState(false);
 
-  console.log(selectedState);
-
+fullname = session?.user?.name;
+email = session?.user?.email;  
   const next = () => {
     if (formNo === 1 && fullname && email && number) {
       setFormNo(formNo + 1);
@@ -95,7 +97,7 @@ function CustomListDropDown() {
       setSelectedState("");
       setCity("");
       setProduct("");
-      router.push("/");
+      router.push("/sucess");
     }
   };
 
@@ -142,7 +144,7 @@ function CustomListDropDown() {
                 <label htmlFor="name">Name</label>
                 <input
             onChange={(e) => setFullname(e.target.value)}
-            value={fullname}
+            value={session?.user?.name}
                   className="p-2 border border-slate-400 mt-1 outline-0 focus:border-blue-500 rounded-md"
                   type="text"
                   name="fullname"
@@ -154,7 +156,7 @@ function CustomListDropDown() {
                 <label htmlFor="email">Email</label>
                 <input
                   onChange={(e) => setEmail(e.target.value)}
-                  value={email}
+                  value={session?.user?.email}
                    className="p-2 border border-slate-400 mt-1 outline-0 focus:border-blue-500 rounded-md"
                   type="email"
                   name="email"
@@ -307,6 +309,12 @@ function CustomListDropDown() {
       </div>
     </form>
 </div>
+{error && (
+            <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+              {error}
+            </div>
+          )}
+
 </>    
   );
 }
