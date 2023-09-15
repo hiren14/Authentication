@@ -11,7 +11,7 @@ export default function Final() {
     const router = useRouter();
 
   let[fullname, setFullname] = useState("");
-   let[email, setEmail] = useState("");
+   let[emailid, setEmail] = useState("");
    const[trackid,setTrackid] = useState("");
    const [error, setError] = useState([]);
    const [success, setSuccess] = useState(false);
@@ -19,8 +19,25 @@ export default function Final() {
    
 
    fullname = session?.user?.name;
-   email = session?.user?.email;  
+   emailid = session?.user?.email;  
    
+   
+const getTopics = async () => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/trackid/${emailid}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch topics");
+    }
+
+    return res.json();
+  } catch (error) {
+    console.log("Error loading topics: ", error);
+  }
+};
+const { topics } =  getTopics();
 
 const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +50,7 @@ const handleSubmit = async (e) => {
       },
       body: JSON.stringify({
         fullname,
-        email,
+        emailid,
         trackid,
       }),
     });
@@ -66,7 +83,7 @@ const handleSubmit = async (e) => {
         
           <input
             type="email"
-            value={email}
+            value={emailid}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="email"
           />
@@ -84,6 +101,9 @@ const handleSubmit = async (e) => {
                   Submit
                 </button>
         </form>
+
+
+ 
       </div>
       
 {error && (

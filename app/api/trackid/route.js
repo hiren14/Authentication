@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 
 export async function POST(req) {
-  const { fullname, email, trackid } = await req.json();
+  const { fullname, emailid, trackid } = await req.json();
 
   try {
     await connectMongoDB();
-    await Trackid.create({ fullname, email,trackid  });
+    await Trackid.create({ fullname, emailid,trackid  });
 
     return NextResponse.json({
       msg: ["Message sent successfully"],
@@ -27,3 +27,11 @@ export async function POST(req) {
     }
   }
 }
+
+  
+  export async function GET() {
+    await connectMongoDB();
+    const topics = await Trackid.find();
+    return NextResponse.json({ topics });
+  }
+  
