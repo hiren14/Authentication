@@ -1,5 +1,5 @@
-import UrlInfo from "@/components/TopicsList";
+import TopicsList from "@/components/TopicsList";
 
 export default function Admin() {
-  return <UrlInfo />;
+  return <TopicsList />;
 }

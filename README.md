@@ -4,7 +4,7 @@
 
 #### team is divded into 3 groups 
 #
-### 1 working on data is consist of  member 
+### 1 working on data is  consist of 4 member 
 <br />
 
 ## your task is as follow 
@@ -22,7 +22,7 @@
 ![Alt text](image-1.png)
 
 above image has city as -Sabarkantha and state as guj
- ```js
+ ```json
  const states = ["Select State","UP", "Delhi", "Gujrat"];
 
   const cities = {
@@ -46,7 +46,7 @@ above image has city as -Sabarkantha and state as guj
 <br />
 <hr />
 
-  ```js
+  ```json
   
   to write above will be 
 
@@ -65,7 +65,7 @@ above image has city as -Sabarkantha and state as guj
 ## now you have to add another city data then use some array 
 
 
-```js
+```json
  const cities =[Gujrat: ["Select city",,"Sabarkantha", "Ahmedabad", "rtt"]
 
   and for Aadder =

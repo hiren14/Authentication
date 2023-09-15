@@ -8,7 +8,7 @@ import { HiPencilAlt } from "react-icons/hi";
 
 const getTopics = async () => {
   try {
-    const res = await fetch(`http://localhost:3000/api/trackid/${emailid}`, {
+    const res = await fetch(`https://tnp-auth.vercel.app/api/ewaste-list`, {
       cache: "no-store",
     });
 
