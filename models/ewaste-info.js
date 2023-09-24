@@ -1,6 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
-const EwasteInfoSchema = new Schema({
+const EwasteInfoSchema = new Schema(
+  
+  {
   fullname: {
     type: String,
     required: [true, "Name is required."],
@@ -35,17 +37,29 @@ city: {
 },
 adder: {
   type: String,
-  required: [true, "city is required."],
+  required: [true, "address is required."],
   
 },
 Product: {
-    type: String,
+    type: [{
+      label:String,
+      value:String,
+
+    }],
     required: [true, "Product is required."],
-    minLength: [3, "Product must be 10 characters"],
+    
     
 },
+points:{
+  type:String,
+  default:0,
+}
 
-});
+},
+{
+  timestamps: true,
+}
+);
 
 const EwasteInfo =
   mongoose.models.EwasteInfo || mongoose.model("EwasteInfo", EwasteInfoSchema);

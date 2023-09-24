@@ -5,7 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-
+import {MultiSelect} from "react-multi-select-component";
+import {states} from "@/lib/data";
+import {cities} from '@/lib/data';
+import {adders} from "@/lib/data";
 
 function CustomListDropDown() {
   const { data: session } = useSession(); 
@@ -14,30 +17,35 @@ function CustomListDropDown() {
   const formArray = [1, 2, 3];
   const [formNo, setFormNo] = useState(formArray[0]);
 
-  const states = ["Select State","UP", "Delhi", "Gujrat"];
+  // const states = ["Select State","UP", "Delhi", "Gujrat"];
 
-  const cities = {
-    UP: ["Select city",,"f", "g", "l"],
+  // const cities = {
+  //   UP: ["Select city",,"f", "g", "l"],
 
-    Delhi: ["Select city",,"a", "b"],
+  //   Delhi: ["Select city",,"a", "b"],
 
-    Gujrat: ["Select city",,"tr", "trt", "rtt"],
-  };
+  //   Gujrat: ["Select city",,"tr", "trt", "rtt"],
+  // };
 
-  const adders ={
-    tr: ["Select add",,"tr", "trt", "rtt"],
-    trt: ["Select add","tr", "trt", "rtt"],
-    rtt: ["Select add",,"tr", "trt", "rtt"],
-    f:  ["Select add","f", "g", "l"],
-    g:  ["Select add","f", "g", "l"],
-    l:  ["Select add","f", "g", "l"],
-    a: ["Select add","a", "b"],
-  };
-  const products = ["Select products","moblie", "wire", "led"];
+  // const adders ={
+  //   tr: ["Select add",,"tr", "trt", "rtt"],
+  //   trt: ["Select add","tr", "trt", "rtt"],
+  //   rtt: ["Select add",,"tr", "trt", "rtt"],
+  //   f:  ["Select add","f", "g", "l"],
+  //   g:  ["Select add","f", "g", "l"],
+  //   l:  ["Select add","f", "g", "l"],
+  //   a: ["Select add","a", "b"],
+  // };
+  const products = [
+    
+   {label:'moblie',value: 'moblie'},
+    {label:'wire',value: 'wire'},
+    {label:'led',value: 'led'},
+  ];
 
   //  use state
   const [selectedState, setSelectedState] = useState("");
-  const [Product, setProduct] = useState("");
+  const [Product, setProduct] = useState([]);
   let [fullname, setFullname] = useState("");
   let [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
@@ -50,11 +58,13 @@ function CustomListDropDown() {
 fullname = session?.user?.name;
 email = session?.user?.email;  
   const next = () => {
-    if (formNo === 1 && fullname && email && number) {
+    if (formNo === 1 && fullname !="" && email!=""&&number.length>=10) {
       setFormNo(formNo + 1);
-    } else if (formNo === 2 && selectedState) {
+    } else if (formNo === 2 && selectedState!=""&&city!=""&&adder!="") {
       setFormNo(formNo + 1);
     } 
+    else if (formNo === 3 && Product != undefined) {
+     console.log("error")  } 
   };
   const pre = () => {
     setFormNo(formNo - 1);
@@ -96,7 +106,7 @@ email = session?.user?.email;
       setNumber("");
       setSelectedState("");
       setCity("");
-      setProduct("");
+      setProduct([]);
       router.push("/sucess");
     }
   };
@@ -220,6 +230,7 @@ email = session?.user?.email;
                     id="city"
                     onChange={(e) => setCity(e.target.value)}
                     value={city}
+                    required
                   
                   >
                     {cities[selectedState].map((city) => {
@@ -238,13 +249,14 @@ email = session?.user?.email;
                 {/* <textarea value={state.address} onChange={inputHandle} row='10' className='p-2 border border-slate-400 mt-1 outline-0 text-slate-500 focus:border-blue-500 rounded-md' type="number" name='address' placeholder='address' ></textarea> */} 
                 {city && (
                   <select
-                    className="p-2 border border-slate-400 mt-1 outline-0 text-slate-500 focus:border-blue-500 rounded-md"
+                    className="p-2 border border-slate-400 mt-1 break-all outline-0 text-slate-500 focus:border-blue-500 rounded-md"
                     name="adder"
                     placeholder="adder name"
                     id="adder"
                     onChange={(e) => setAdder(e.target.value)}
                     value={adder}
-                  
+
+                  required
                   >
                     {adders[city].map((adder) => {
                       // eslint-disable-next-line react/jsx-key
@@ -275,20 +287,12 @@ email = session?.user?.email;
             <div>
               <div className="flex flex-col mb-2">
                 <label htmlFor="district">Device List</label>
+<MultiSelect 
+options={products}
+value={Product}
+onChange={setProduct}
 
-                <select
-                  className="p-2 border border-slate-400 mt-1 outline-0 text-slate-500 focus:border-blue-500 rounded-md"
-                  name="products"
-                  id="products"
-                  onChange={(e) => {
-                    setProduct(e.target.value);
-                  }}
-                >
-                  {products.map((products) => {
-                    // eslint-disable-next-line react/jsx-key
-                    return <option>{products}</option>;
-                  })}
-                </select>
+labelledBy="Select devices " />
               </div>
               <div className="mt-4 gap-3 flex justify-center items-center">
                 <button
@@ -306,14 +310,16 @@ email = session?.user?.email;
               </div>
             </div>
           )}
-      </div>
-    </form>
-</div>
-{error && (
+    {error && (
             <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
               {error}
             </div>
           )}
+      </div>
+    </form>
+    
+</div>
+
 
 </>    
   );
