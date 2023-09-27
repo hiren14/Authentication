@@ -4,7 +4,6 @@ import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Script from "next/script";
-import {Logo } from "../public/";
 
 export default function Header() {
   
